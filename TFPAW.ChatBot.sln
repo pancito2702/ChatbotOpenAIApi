@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFPAW.API", "TFPAW.API\TFPAW.API.csproj", "{380705A0-CE4F-41BE-AB62-34DF37E56A3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFPAW.Web", "TFPAW.Web\TFPAW.Web.csproj", "{7A09DF62-F69D-4C0E-8682-D4C36ABBE281}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFPAW.Models", "TFPAW.Models\TFPAW.Models.csproj", "{00DC1D44-4DB9-40CE-843A-FF6868184CEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFPAW.Services", "TFPAW.Services\TFPAW.Services.csproj", "{2AF4AAD1-F5D4-444E-BEB5-BA17589EA7C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{380705A0-CE4F-41BE-AB62-34DF37E56A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380705A0-CE4F-41BE-AB62-34DF37E56A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380705A0-CE4F-41BE-AB62-34DF37E56A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380705A0-CE4F-41BE-AB62-34DF37E56A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A09DF62-F69D-4C0E-8682-D4C36ABBE281}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A09DF62-F69D-4C0E-8682-D4C36ABBE281}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A09DF62-F69D-4C0E-8682-D4C36ABBE281}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A09DF62-F69D-4C0E-8682-D4C36ABBE281}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00DC1D44-4DB9-40CE-843A-FF6868184CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00DC1D44-4DB9-40CE-843A-FF6868184CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00DC1D44-4DB9-40CE-843A-FF6868184CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00DC1D44-4DB9-40CE-843A-FF6868184CEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF4AAD1-F5D4-444E-BEB5-BA17589EA7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF4AAD1-F5D4-444E-BEB5-BA17589EA7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF4AAD1-F5D4-444E-BEB5-BA17589EA7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF4AAD1-F5D4-444E-BEB5-BA17589EA7C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC7F4487-30DA-4748-8D46-90445C7CC28D}
+	EndGlobalSection
+EndGlobal

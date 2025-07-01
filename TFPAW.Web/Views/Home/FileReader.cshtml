@@ -1,0 +1,161 @@
+﻿@{
+    ViewData["Title"] = "PDF Chatbot";
+}
+<div class="d-flex justify-content-center mt-5">
+    <div class="chat-container">
+        <div class="chat-header">
+            PDF Chatbot
+        </div>
+        <div class="chat-messages" id="chatbox">
+
+        </div>
+        <div class="chat-input">
+            <input type="file" id="pdfFiles" multiple accept=".pdf" style="display: none;" required>
+            <label for="pdfFiles" class="btn btn-outline-secondary mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload PDFs
+            </label>
+            <input type="text" id="chatInput" class="w-100" name="message" placeholder="Ask a question about the PDFs..." required>
+            <button type="submit" id="sendBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chat-container {
+        width: 90%;
+        max-width: 800px;
+        height: 80vh;
+        background-color: var(--dark-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+    .chat-header {
+        background-color: var(--cream-white);
+        color: var(--raisin-black);
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    .chat-messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .message {
+        max-width: 70%;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        word-wrap: break-word;
+    }
+    .chat-input {
+        display: flex;
+        padding: 1rem;
+        background-color: var(--raisin-black);
+        align-items: center;
+    }
+
+    #chatInput {
+        flex-grow: 1;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 20px;
+        background-color: var(--almond-milk);
+        color: var(--raisin-black);
+    }
+    #sendBtn {
+        background-color: var(--cream-white);
+        color: var(--raisin-black);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    label[for="pdfFiles"] {
+        background-color: var(--cream-white);
+        color: var(--raisin-black);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    label[for="pdfFiles"] svg {
+        margin-right: 0.5rem;
+    }
+   
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let uploadedFiles = [];
+
+        $('#pdfFiles').change(function() {
+            uploadedFiles = Array.from(this.files);
+            let fileNames = uploadedFiles.map(file => file.name).join(', ');
+            $('#chatbox').append('<div class="d-flex justify-content-end"><div class="message user-message ml-auto">Uploaded files: ' + fileNames + '</div></div>');
+            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+        });
+
+        $('#sendBtn').click(function () {
+            var userInput = $('#chatInput').val();
+        
+                $('#chatbox').append('<div class="d-flex justify-content-end"><div class="message user-message ml-auto">' + userInput + '</div></div>');
+                $('#chatInput').val('');
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+
+                const formData = new FormData();
+                for (const file of uploadedFiles) {
+                    formData.append('Files', file);
+                }
+                formData.append('Question', userInput);
+                $('#chatbox').append('<div class="d-flex" id="divCarga"><div class="message bot-message mr-auto">' + 'Generando respuesta...' + '</div></div>');
+
+
+                $.ajax({
+                    url: '/Home/ProcessPdf',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        $('#divCarga').remove();
+                        $('#chatbox').append('<div class="d-flex"><div class="message bot-message mr-auto">' + data.response + '</div></div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#chatbox').append('<div class="d-flex"><div class="message bot-message mr-auto">Error: ' + error + '</div></div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    }
+                });
+           
+        });
+
+        $('#chatInput').keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendBtn').click();
+            }
+        });
+    });
+</script>

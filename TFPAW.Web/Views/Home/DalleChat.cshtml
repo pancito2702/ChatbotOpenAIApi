@@ -1,0 +1,67 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="chat-container">
+            <div class="chat-header">
+                Dall-E
+            </div>
+            <div class="chat-messages" id="imagebox">
+            </div>
+            <div class="d-flex p-4 flex-row">
+                <input type="text" id="imageInput" class="w-100" name="message" placeholder="Type your prompt here..." required>
+                <button type="submit" id="sendBtnImage">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#sendBtnImage').click(function () {
+            var userInput = $('#imageInput').val();
+
+            $('#imagebox').append('<div class="d-flex justify-content-end"><div class="message user-message ml-auto">' + userInput + '</div></div>');
+            $('#imageInput').val('');
+            $('#imagebox').scrollTop($('#imagebox')[0].scrollHeight);
+            $('#imagebox').append('<div class="d-flex" id="divCarga"><div class="message bot-message mr-auto">' + 'Generando respuesta...' + '</div></div>');
+            $.post("/Home/SendMessageDallE", { message: userInput }, function (data) {
+
+                $('#divCarga').remove();
+                console.log(data)
+                if (data.error) {
+                    $('#imagebox').append('<div class="d-flex"><div class="message bot-message mr-auto">' + 'Error: ' + data.error + '</div></div>');
+                } else if (data.response.message) {
+                    $('#imagebox').append('<div class="d-flex"><div class="message bot-message mr-auto">' + 'Error: ' + data.response.message + '</div></div>');
+                }  else {
+                    $('#imagebox').append('<div class="d-flex"><div class="message bot-message mr-auto">' + 'Prompt Corregido por Dall-E: ' + data.response.revised_prompt + '</div></div>');
+                    $('#imagebox').append($('<img class="img-fluid" />').attr('src', data.response.url))
+                    $('#imagebox').scrollTop($('#imagebox')[0].scrollHeight);
+                }
+
+            
+
+            })
+        
+                   
+           
+
+        });
+
+        $('#imageInput').keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendBtnImage').click();
+            }
+        });
+    });
+
+
+</script>

@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="d-flex justify-content-center mt-5">
+    <div class="chat-container">
+        <div class="chat-header">
+            Chatbot
+        </div>
+        <div class="chat-messages" id="chatbox">
+        </div>
+        <div class="d-flex p-4 flex-row">
+            <input type="text" id="chatInput" class="w-100" name="message" placeholder="Escribe tu mensaje aquí..." required>
+            <button type="submit" id="sendBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#sendBtn').click(function () {
+            var userInput = $('#chatInput').val();
+
+            $('#chatbox').append('<div class="d-flex justify-content-end"><div class="message user-message ml-auto">' + userInput + '</div></div>');
+            $('#chatInput').val('');
+            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+            $('#chatbox').append('<div class="d-flex" id="divCarga"><div class="message bot-message mr-auto">' + 'Generando respuesta...' + '</div></div>');
+
+
+            $.post("/Home/SendMessage", { message: userInput }, function (data) {
+                console.log(data)
+                $('#divCarga').remove();
+                $('#chatbox').append('<div class="d-flex"><div class="message bot-message mr-auto">' + data.response + '</div></div>');
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+            });
+
+        });
+
+        $('#chatInput').keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendBtn').click();
+            }
+        });
+    });
+</script>
